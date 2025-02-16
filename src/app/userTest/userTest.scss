@@ -1,0 +1,22 @@
+h1{
+    margin: 20px 0;
+}
+.operate{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.table{
+    margin: 20px 0;
+    width: 100%;
+    border: 2px solid #FFF;
+    border-collapse: collapse;
+    th{
+        border: 1px solid #FFF;
+        padding: 10px;
+    }
+    td{
+        padding: 10px;
+        border: 1px solid #FFF;
+    }
+}

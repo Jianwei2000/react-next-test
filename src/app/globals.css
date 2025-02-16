@@ -35,6 +35,10 @@ a {
   text-decoration: none;
 }
 
+.container{
+  width: 80%;
+  margin: 0 auto;
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
