@@ -1,9 +1,27 @@
 "use client"; // ✅ 讓 Next.js 知道這是 Client Component
 import Navbar from "@/components/navbar/Navbar.jsx";
+import usersApi from "@/api/usersApi.js";
 import "./userTest.scss";
+import { useEffect, useState } from "react";
 
 
 export default function userTest() {
+    const [users, setUsers] = useState([]); // ⬅️ 存放 API 取得的會員資料
+
+    useEffect(() => {
+        const getUsers = async () => {
+            try {
+                const response = await usersApi.getAllUsers();
+                setUsers(response.data.users);
+            }
+            catch (err) {
+                console.error("錯誤訊息:", err);
+            }
+        };
+        getUsers();
+
+    }, [])
+
 
     return (
         <>
@@ -16,30 +34,25 @@ export default function userTest() {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th >#</th>
-                            <th >First</th>
-                            <th >Last</th>
-                            <th >Handle</th>
+                            <th>#</th>
+                            <th>姓名</th>
+                            <th>電郵</th>
+                            <th>手機</th>
+                            <th>生日</th>
+                            <th>地址</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th >1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th >2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th >3</th>
-                            <td >Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        {users.map((user) => (
+                            <tr key={user.ab_id}>
+                                <td>{user.ab_id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.mobile}</td>
+                                <td>{user.birthday}</td>
+                                <td>{user.address}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
