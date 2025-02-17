@@ -1,11 +1,17 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:3050/users";
+const API_URL = "http://172.23.53.112:3050/users";
 
 const usersApi = {
     // 取得所有使用者
-    getAllUsers: () => {
-        return axios.get(API_URL);
+    getAllUsers: (keyword = "", page = 1, limit = 15) => {
+        return axios.get(API_URL, {
+            params: {
+                keyword,
+                page,
+                limit
+            } // 這裡傳遞查詢參數
+        });
     },
     // 取得單一使用者
     getUser: (id) => {
