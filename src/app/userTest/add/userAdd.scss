@@ -1,0 +1,56 @@
+.add{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+.btn{
+    display: grid;
+    place-items: center;
+    background-color: rgba(46, 40, 40, 0.952);
+    color: #FFF;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 0 10px;
+    cursor: pointer;
+    &:disabled{
+        background: lightgray;
+        border: none;
+        pointer-events: none;
+    }
+}
+
+.card{
+    width: 100%;
+    display: grid;
+    place-items: center;
+    form{
+        width: 30%;
+        border-radius: 20px;
+        padding: 20px;
+        background-color: #3f3e3eb6;
+        color: #FFF;
+        .mb{
+            margin-bottom: 20px;
+            input{
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 10px;
+                &:focus{
+                    outline: none;
+                    background-color:burlywood;
+                }
+            }
+            button{
+                width: 100%;
+                padding: 10px;
+                font-size: 20px;
+                font-weight: bold;
+                background-color: rgb(49, 48, 48);
+                border-radius: 10px;
+                color: #FFF;
+                cursor: pointer;
+            }
+        }
+    }
+}
