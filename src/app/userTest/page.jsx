@@ -1,5 +1,5 @@
-"use client"; // ✅ 讓 Next.js 知道這是 Client Component
-import Navbar from "@/components/navbar/Navbar.jsx";
+"use client"; 
+
 import usersApi from "@/api/usersApi.js";
 import "./userTest.scss";
 import { useEffect, useState } from "react";
@@ -7,8 +7,9 @@ import Link from "next/link";
 
 
 export default function userTest() {
+
     // 狀態管理：儲存會員資料、分頁資料
-    const [users, setUsers] = useState([]);   // 會員資料
+    const [users, setUsers] = useState(null);   // 會員資料
     const [keyword, setKeyword] = useState(""); // 搜尋關鍵字
     const [page, setPage] = useState(1);       // 當前頁
     const [totalPages, setTotalPages] = useState(0); // 總頁數
@@ -18,13 +19,33 @@ export default function userTest() {
     const getUsers = async () => {
         try {
             const response = await usersApi.getAllUsers(keyword, page);
+            
             setUsers(response.data.users); // 更新會員資料
             setTotalPages(response.data.totalPages); // 更新總頁數
             setTotalRecords(response.data.totalRecords); // 更新總資料筆數
+            
         } catch (err) {
             console.error("錯誤訊息:", err);
         }
     };
+
+    //刪除會員
+    const delUser = async (userId)=>{
+        try {
+            const response = await usersApi.deleteUser(userId); // Axios 回傳的是 response.data
+            console.log("刪除成功:", response.data.message);
+    
+            // 刷新會員列表
+            getUsers();
+        } catch (err) {
+            console.error("刪除失敗:", err.response?.data?.error || err.message);
+        }
+    }
+
+    //編輯會員
+    const updateUser = async (userId) =>{
+        window.location.href = `/userTest/edit?id=${userId}`;
+    }
 
     // 當關鍵字或頁碼改變時重新取得資料
     useEffect(() => {
@@ -42,9 +63,15 @@ export default function userTest() {
         setPage(newPage);
     };
 
+
+    if (users === null) {
+        return <p>載入中...</p>; // 避免 Hydration Mismatch
+    }
+
     return (
         <>
-            <Navbar />
+         
+
             <div className="container">
                 <div className="add">
                     <h1>會員資料讀取</h1>
@@ -76,31 +103,41 @@ export default function userTest() {
                         </button>
                     </div>
                 </div>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>姓名</th>
-                            <th>信箱</th>
-                            <th>手機</th>
-                            <th>生日</th>
-                            <th>地址</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user) => (
-                            <tr key={user.user_id}>
-                                <td>{user.user_id}</td>
-                                <td>{user.user_name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.phone_number}</td>
-                                <td>{user.birthday}</td>
-                                <td>{user.address}</td>
+                
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>姓名</th>
+                                <th>信箱</th>
+                                <th>手機</th>
+                                <th>生日</th>
+                                <th>地址</th>
+                                <th>操作</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {users.map((user) => (
+                                <tr key={user.user_id}>
+                                    <td>{user.user_id}</td>
+                                    <td>{user.user_name}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.phone_number}</td>
+                                    <td>{user.birthday}</td>
+                                    <td>{user.address}</td>
+                                    <td>
+                                        <div className="action">
+                                            <button className="btn" onClick={()=>{updateUser(user.user_id)}}>修改</button>
+                                            <button className="btn" onClick={()=>{delUser(user.user_id)}}>刪除</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+            
             </div>
+      
         </>
     )
 }

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://172.23.53.112:3050/users";
+// const API_URL = "http://172.23.53.112:3050/users";
+const API_URL = "http://127.0.0.1:3050/users";
 
 const usersApi = {
     // 取得所有使用者

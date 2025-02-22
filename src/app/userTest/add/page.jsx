@@ -1,13 +1,12 @@
 "use client";
 
-import Navbar from "@/components/navbar/Navbar";
 import usersApi from "@/api/usersApi.js";
 import "./userAdd.scss"
 import Link from "next/link";
 import { useState } from "react";
 
 
-export default function add() {
+export default function Add() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -44,7 +43,7 @@ export default function add() {
 
     return (
         <>
-            <Navbar />
+           
             <div className="container">
 
                 <div className="add">
